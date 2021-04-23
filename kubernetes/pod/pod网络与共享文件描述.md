@@ -10,7 +10,7 @@
 
 > 在Pod中，Infra 容器永远都是第一个被创建的容器，而其他用户定义的容器，则通过 Join Network Namespace 的方式，与 Infra 容器关联在一起
 
-![container_join_to_infra-network left](./img/container_join_to_infra-network.jpg)
+![container_join_to_infra-network left](../img/container_join_to_infra-network.jpg)
 
 
 
@@ -27,9 +27,7 @@
 
 > 默认情况下容器的文件系统是互相隔离的，要实现共享只需要在pod的顶层声明一个 Volume ，然后在需要时共享这个 Volume 的容器中声明挂载即可
 
-<img src="./img/container_share_filesystem.jpg" alt="container_share_filesystem" style="zoom:50%;" />
-
-
+<img src="../img/container_share_filesystem.jpg" alt="container_share_filesystem" style="zoom:50%;" />
 
 ### 判断是否需要在 pod 中使用多个容器 （sidecar模式）
 
