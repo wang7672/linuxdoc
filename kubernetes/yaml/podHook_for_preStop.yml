@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-hook-prestop
+  namespace: default
+spec:
+  volumes:
+  - name: prelog
+    hostPath: 
+      path: /data/prelog
+  containers:
+  - name: hook-for-prestop
+    image: busybox
+    lifecycle:
+      preStop:
+        exec:
+          command: ["/bin/sh","-c","echo prestop for container lif over > /var/log/prestop.log "]
+    command:
+    - "bin/sh"
+    - "-c"
+    - "sleep 100"
+    volumeMounts:
+    - name: prelog
+      mountPath: /var/log
