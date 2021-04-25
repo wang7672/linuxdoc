@@ -6,7 +6,7 @@ spec:
   volumes:
   - name: varlog
     hostPath:
-      path: /var/log/counter
+      path: /var/log/counter    #固定在宿主机的上路径 不会随pod的消亡而消亡
   containers:
   - name: count
     image: busybox
