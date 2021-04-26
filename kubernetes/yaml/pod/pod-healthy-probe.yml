@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: healthy-probe
+  namespace: default
+spec:
+  containers:
+  - name: healthy-probe
+    image: cnych/liveness
+    args:
+    - /server
+    livenessProbe:  # 控制 pod的存活性
+      httpGet:
+      path: /healthz
+      port: 8080
+      initialDelaySeconds: 3
+      periodSeconds: 3
+    startupProbe:   # 容器启动探测
+      httpGet:
+      path: /healthz
+      port: 8080
+      failureThreshold: 5
+      periodSeconds: 2
+    readinessProbe:  # 控制service endpoint
+      httpGet:
+      path: /healthz
+      port: 8080
