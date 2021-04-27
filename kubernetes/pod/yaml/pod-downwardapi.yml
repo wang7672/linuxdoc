@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-downwardapi
+  namespace: kube-public
+spec:
+  volumes:
+  - downwardAPI:
+      items:
+      - path: podname
+        fieldRef:
+          fieldPath: metadata.name
+      - path: cpulimit
+        resourceFieldRef:
+          containerName: pod-downwardapi
+          resource: limits.cpu
+    name: podinfo     
+  containers:
+  - name: pod-downwardapi
+    image: busybox
+    command: ["/bin/sh","-c","env; sleep 60"]
+    volumeMounts:
+    - name: podinfo
+      mountPath: /var/podinfo
+    resources:
+      limits:
+        cpu: 400m
+        memory: 500Mi
+      requests:
+        cpu: 200m
+        memory: 250Mi

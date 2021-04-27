@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-pod
+  namespace: kube-public
+spec:
+  containers:
+  - name: env-pod
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 100Mi
+      requests:
+        cpu: 1500m
+        memory: 50Mi
+    image: busybox
+    command: ["/bin/sh","-c","env; sleep 100"]
+    env:
+    - name: POD_NAME
+      valueFrom:
+        fieldRef: 
+          fieldPath: metadata.name
+    - name: CPU_LIMIT
+      valueFrom:
+        resourceFieldRef: 
+          containerName: env-pod
+          resource: limits.cpu
+    - name: POD_IP
+      valueFrom:
+        fieldRef: 
+          fieldPath: status.podIP
