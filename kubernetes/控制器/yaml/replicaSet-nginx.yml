@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
   name: nginx-rs
-  lables:
+  labels:
     role: nginx-rs
   namespace: default
 spec:
@@ -13,7 +13,7 @@ spec:
   replicas: 4
   template:
     metadata:
-      lables:
+      labels:
         app: nginx
         type: nginx-rs
     spec:
