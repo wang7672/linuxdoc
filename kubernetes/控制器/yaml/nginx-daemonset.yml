@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: DaemonSet
+metadata:
+  name: nginx-ds
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      ks8-app: nginx
+  template:
+    metadata:
+      labels:
+        k8s-app: nginx
+    spec:
+      contaibers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - name: http
+          contaiberPort: 80
