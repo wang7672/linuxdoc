@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: nginx-ds
@@ -6,15 +6,15 @@ metadata:
 spec:
   selector:
     matchLabels:
-      ks8-app: nginx
+      k8s-app: nginx
   template:
     metadata:
       labels:
         k8s-app: nginx
     spec:
-      contaibers:
+      containers:
       - name: nginx
         image: nginx:1.7.9
         ports:
         - name: http
-          contaiberPort: 80
+          containerPort: 80
