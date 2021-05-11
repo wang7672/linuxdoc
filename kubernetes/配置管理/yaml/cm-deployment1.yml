@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cm-deploy-demo
+  namespace: default
+  labels:
+    type: cm-deploy
+spec:
+  selector:
+    matchLabels:
+      app: cm-demo
+  template:
+    metadata:
+      labels:
+        app: cm-demo
+    spec:
+      containers:
+      - name: cm-demo
+        image: nginx
+        env:
+        - name: data1
+          valueFrom:
+            configMapKeyRef:
+              key: data.1
+              name: cm-demo
+        - name: data2
+          valueFrom:
+            configMapKeyRef:
+              key: data.2
+              name: cm-demo
+        - name: data3
+          valueFrom:
+            configMapKeyRef:
+              key:  config
+              name: cm-demo
+        envFrom:
+        - configMapRef:
+            name: cm-demo1

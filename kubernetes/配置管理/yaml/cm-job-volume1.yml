@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cm-job
+  namespace: default
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: cm-job
+        image: busybox
+        command: ["/bin/sh","-c","ls /tmp/conf/"]
+        volumeMounts:
+        - name: config-volume
+          mountPath: /tmp/conf
+      volumes:
+      - name: config-volume
+        configMap:
+          name: cm-demo

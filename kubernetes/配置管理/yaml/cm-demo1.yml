@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cm-demo1
+  namespace: default
+data:
+  mysql.conf: |
+    host=127.0.0.1
+    hostport=3306
+  redis.conf: |
+    host=127.0.0.2
+    hotsport=6379
