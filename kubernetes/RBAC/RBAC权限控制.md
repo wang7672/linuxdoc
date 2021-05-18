@@ -40,63 +40,13 @@ $ kubectl config set-cluster kubernetes --certificate-authority=/etc/kubernetes/
 
 
 
+
+
+
+
+
+
 ### 可以全局访问的ServiceAccount
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
