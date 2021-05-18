@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sec-capabilities
+  namespace: default
+spec:
+  containers:
+  - name: sec-capabilities
+    image: busybox
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/sh","-c","sleep 30m"]
+    securityContext:
+      capabilities:
+        add:
+        - NET_ADMIN
+        drop:
+        - KIll
