@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-100
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: www.daepay.com

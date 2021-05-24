@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ng-demo
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: ng-demo
+  replicas: 2
+  template:
+    metadata:
+      name: ng-pod
+      namespace: default
+      labels:
+        app: ng-demo
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - name: ngport
+          containerPort: 80
+
+---
+# cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: ng-svc
+  namespace: default
+spec:
+  selector:
+    app: ng-demo
+  type: ClusterIP
+  ports:
+  - name: ng-svc-port
+    targetPort: ngport
+    port: 8888
+    
+---
+# headless
+apiVersion: v1
+kind: Service
+metadata:
+  name: ng-svc
+  namespace: default
+spec:
+  selector:
+    app: ng-demo
+  type: ClusterIP
+  ports:
+  - name: ng-svc-port
+    targetPort: ngport
+    port: 8888
+  clusterIP: None
+
+---
+# node port
+apiVersion: v1
+kind: Service
+metadata:
+  name: ng-svc
+  namespace: default
+spec:
+  selector:
+    app: ng-demo
+  type: NodePort
+  ports:
+  - name: ng-svc-port
+    targetPort: ngport
+    port: 8888
