@@ -1,0 +1,27 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: TraefikService
+metadata:
+  name: app-mirror
+spec:
+  mirroring:
+    name: v1
+    port: 80
+    mirrors:
+    - name: v2
+      percent: 50
+      port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mirror-ingress-route
+  namespace: default
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: Host(`mirror.rapeseed-wang.cn`)
+    kind: Rule
+    services:
+    - name: app-mirror
+      kind: TraefikService

@@ -1,0 +1,30 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: TraefikService
+metadata:
+  name: app-wrr
+spec:
+  weighted:
+    service:
+    - name: appv1
+      weight: 3
+      port: 80
+      kind: Service
+    - name: appv2
+      weight: 2
+      port: 80
+      kind: Service
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wrr-ingressroute
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: Host(`wrr.rapeseed-wang.cn`)
+    kind: Rule
+    services:
+    - name: app-wrr
+      kind: TraefikService

@@ -1,0 +1,27 @@
+controller:
+  name: controller
+  image:
+    repository: pollyduan/ingress-nginx-controller
+    tag: "v0.45.0"
+    digest: 
+
+  dnsPolicy: ClusterFirstWithHostNet
+
+  hostNetwork: true
+
+  publishService:  # hostNetwork 模式下设置为false，通过节点IP地址上报ingress status数据
+    enabled: false
+
+  kind: DaemonSet
+
+  nodeSelector:   # 固定到master1节点
+    ng-ingress: "true"
+  service:  # HostNetwork 模式不需要创建service
+    enabled: false
+
+defaultBackend:
+  enabled: true
+  name: defaultbackend
+  image:
+    repository: acicn/ingress-nginx-defaultbackend
+    tag: "1.5"
