@@ -38,3 +38,6 @@ logs:
 
 nodeSelector:   # 固定到master1节点（该节点才可以访问外网）
   traefik: "true"
+
+additionalArguments:
+- --entrypoints.web.forwardedheaders.insecure

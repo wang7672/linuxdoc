@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-affinity-demo
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pod-affinity
+  template:
+    metadata:
+      labels:
+        app: pod-affinity
+    spec:
+      containers:
+      - name: ng
+        image: nignx
+        ports:
+        - name: ng-port
+          containerPort: 80
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In 
+                values: ["mongo-treafik"]
+            topologyKey: treafik

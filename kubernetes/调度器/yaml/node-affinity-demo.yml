@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-affinity
+  namespace: default
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: node-affinity
+  template:
+    metadata:
+      labels:
+        app: node-affinity
+    spec:
+      containers:
+      - name: ng
+        image: nginx
+        ports:
+        - name: ng-port
+          containerPort: 80
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: ng-ingress
+                operator: In 
+                values: ["true"]

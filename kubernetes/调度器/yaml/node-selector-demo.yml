@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scheduler-node-selector
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    app: selector-demo
+  template:
+    metadata:
+      app: selector-demo
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["/bin/sh","-c","sleep 3600"]
+  nodeSelector:
+    com: ydzs
