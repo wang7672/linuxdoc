@@ -27,3 +27,10 @@ spec:
               - key: ng-ingress
                 operator: In 
                 values: ["true"]
+#          preferredDuringSchedulingIgnoredDuringExecution:
+#          - weight: 10
+#            preference:
+#              matchExpressions:
+#              - key: com
+#                operator: In
+#                values: ["ydzs"]

@@ -1,0 +1,68 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+volumeBindingMode: WaitForFirstConsumer
+provisioner: kubernetes.io/no-provisioner
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-localpv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+  local:
+    path: /data/k8s/localpv
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: ["node02"]
+
+
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-localpv
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: local-storage
+
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pv-local-pod
+spec:
+  volumes:
+  - name: local-pv
+    persistentVolumeClaim:
+      claimName: pvc-localpv
+  containers:
+  - name: ng
+    image: nginx
+    ports:
+    - name: ngport
+      containerPort: 80
+      volumeMounts:
+      - name: local-pv
+        mountPath: /usr/share/nginx/html
