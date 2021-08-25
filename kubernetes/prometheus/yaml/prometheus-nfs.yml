@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prometheus-monitor-pv
+  namespace: kube-monitor
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /data/nfs/prometheus
+    server: 192.168.3.10
+
+---
+apiVersion:
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus-monitor-pvc
+  namespace: kube-monitor
+spec:
+  storageClassName: manual
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

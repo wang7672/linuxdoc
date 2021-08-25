@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: kube-monitor
+spec:
+  selector:
+    matchLabels:
+      app: monitor
+  template:
+    metadata:
+      labels:
+        app: monitor
+    spec:
+      #serviceAccountName: prometheus
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.28.1
+        args:
+        - --config.file=/etc/prometheus/prometheus.yml
+        - --storage.tsdb.path=/data/prometheus
+        - --storage.tsdb.retention.time=7d
+        - --web.enable-admin-api    # 控制对admin HTTP API的访问，其中包括删除时间序列等功能
+        - --web.enable-lifecycle    #  支持热更新，直接执行localhost:9090/-/reload立即生效
+        ports:
+        - name: prom-http
+          containerPort: 9090
+        volumeMounts:
+        - mountPath: /etc/prometheus
+          name: prometheus-config
+        - mountPath: /data/prometheus
+          name: data
+        resources:
+          requests:
+            cpu: 1200m
+            memory: 2048Mi
+          limits:
+            cpu: 1500m
+            memory: 2500Mi
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: prometheus-monitor-pvc
+      - name: prometheus-config
+        configMap:
+          name: prometheus-config
+      
+      securityContext:
+        runAsUser: 0

@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus-route
+  namespace: kube-monitor
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: Host(`prometheus.rapeseed-wang.cn`)
+    kind: Rule
+    services:
+    - name: prometheus
+      port: 9090
