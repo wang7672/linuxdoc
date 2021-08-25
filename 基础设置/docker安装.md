@@ -11,7 +11,11 @@ yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/d
 3.安装docker-ce
 yum clean all
 yum makecache fast
+yum list docker-ce --showduplicates
 yum -y install docker-ce
+
+
+
 
 4.添加docker配置 /etc/docker/daemon.json
 {
